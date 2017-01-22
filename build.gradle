@@ -1,0 +1,71 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'org.ajoberstar:gradle-git:1.6.0'
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+    id 'org.ajoberstar.release-opinion' version '1.6.0'
+    id 'org.ajoberstar.grgit' version '1.6.0'
+}
+
+repositories {
+    jcenter()
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply from: 'gradle/publishing.gradle'
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:2.4.1"
+    compile "ch.qos.logback:logback-classic:1.1.7"
+    compile "commons-beanutils:commons-beanutils:1.9.3"
+
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testRuntime "cglib:cglib-nodep:3.1"    
+    testRuntime "org.objenesis:objenesis:2.1"
+}
+
+sourceSets {
+    main {
+        resources.srcDir 'src/main/resources'
+    }
+}
+
+task sourcesJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the source code'
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+        showStandardStreams = true
+    }
+}
+
+jar.finalizedBy sourcesJar
+
+artifacts {
+    sourcesJar
+}
+
+tasks.release.dependsOn 'build', 'bintrayUpload'
+
+/*
+Release task cheatsheet:
+// major release:
+gw clean release -Prelease.scope=major -Prelease.stage=final
+// minor release:
+gw clean release -Prelease.scope=minor -Prelease.stage=final
+*/
