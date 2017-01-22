@@ -24,10 +24,10 @@ apply plugin: 'idea'
 apply from: 'gradle/publishing.gradle'
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:2.4.1"
     compile "ch.qos.logback:logback-classic:1.1.7"
     compile "commons-beanutils:commons-beanutils:1.9.3"
 
+    testCompile "org.codehaus.groovy:groovy-all:2.4.1"
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
     testRuntime "cglib:cglib-nodep:3.1"    
     testRuntime "org.objenesis:objenesis:2.1"

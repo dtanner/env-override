@@ -39,13 +39,13 @@ The AppConfig instance will end up with a hostName of `foo.com` and port of `80`
 i.e. It will have modified the hostName, and left the port with the original value.
 
 ## Requirements, Behaviors, Limitations
-- Your configuration object must implement `Cloneable`. `overrideFromEnvironment` will **not** mutate your original object.
+- The method will **not** mutate your original object. It will return a new object with overridden properties.
 - Your property names must strictly match camelCase naming structure.
-- It currently only supports a flat set of properties. i.e. It doesn't support nested objects in configuration.  
-- It currently supports Strings, Integers, and BigDecimal types.  Other types might work, but aren't tested.  (I'm totally open to suggestion on more types; just haven't seen a need yet.)  
+- It currently supports a flat set of properties. i.e. It doesn't support nested objects or Lists in configuration.  
 
 ## Dependencies
-logback-classic, and spock for testing. 
+- commons-beanutils
+- logback-classic
 
 ## Issues / Questions
 Please open an issue and let me know if you think something's missing, confusing, or broken.   
