@@ -1,4 +1,4 @@
-language: java
+language: groovy
 script: ./gradlew --info clean build
 jdk: oraclejdk8
 env: TERM=dumb

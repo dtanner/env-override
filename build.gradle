@@ -19,7 +19,7 @@ repositories {
     jcenter()
 }
 
-apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
 apply from: 'gradle/publishing.gradle'
 
