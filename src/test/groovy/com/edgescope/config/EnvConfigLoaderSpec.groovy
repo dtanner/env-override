@@ -33,6 +33,10 @@ class EnvConfigLoaderSpec extends Specification {
         propertyName      | environmentMap                  | expectedValue
         'stringValue'     | [TEST_STRING_VALUE: "b"]        | 'b'
         'intValue'        | [TEST_INT_VALUE: "2"]           | 2
+        'integerValue'    | [TEST_INTEGER_VALUE: "2"]       | 2
+        'longValue'       | [TEST_LONG_VALUE: "2"]          | 2
+        'charValue'       | [TEST_CHAR_VALUE: "b"]          | 'b'
+        'doubleValue'     | [TEST_DOUBLE_VALUE: "2.0"]      | 2.0
         'bigDecimalValue' | [TEST_BIG_DECIMAL_VALUE: "2.0"] | 2.0
     }
 
