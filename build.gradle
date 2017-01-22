@@ -70,4 +70,6 @@ minor release:
 gw clean release -Prelease.scope=minor -Prelease.stage=final
 patch release:
 gw clean release -Prelease.scope=patch -Prelease.stage=final
+
+// swing popup is for github tagging
 */
