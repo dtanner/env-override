@@ -4,7 +4,7 @@ Utility library to override an object's properties with environment variable val
 
 [![Build Status](https://travis-ci.org/dtanner/env-override.svg?branch=master)](https://travis-ci.org/dtanner/env-override)
 
-Available from the jcenter repository as: compile 'com.edgescope:env-override:1.1.0'
+Available from the jcenter repository as: compile 'com.edgescope:env-override:$version' - see the Releases for the latest version.
 
 ## Main Purpose
 Let you define your application's configuration in a **typed** configuration, 
