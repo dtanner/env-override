@@ -4,12 +4,19 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EnvConfigLoader {
 
     private static final Logger log = LoggerFactory.getLogger(EnvConfigLoader.class);
+
+    private static final String ENV_OVERRIDE_VALIDATION_ENABLED = "envOverride.validationEnabled";
 
     /**
      * Given a class, returns a new instance of that class with overridden properties from environment variables with the given prefix.
@@ -57,19 +64,43 @@ public class EnvConfigLoader {
     @SuppressWarnings("unchecked")
     protected static <T> T overridePropertiesFromMap(T originalObject, Map<String, String> camelOverridesMap) {
         T overriddenObject;
+
+        List<Field> overrideRequiredFields = Stream.of(originalObject.getClass().getDeclaredFields()).filter(field ->
+                field.isAnnotationPresent(RequiresOverride.class)).collect(Collectors.toList());
+
+        List<Field> overriddenFields = new ArrayList<>();
+
         try {
             overriddenObject = (T) BeanUtils.cloneBean(originalObject);
             for (String propertyName : camelOverridesMap.keySet()) {
                 try {
-                    overriddenObject.getClass().getDeclaredField(propertyName);
+                    Field field = overriddenObject.getClass().getDeclaredField(propertyName);
+                    overriddenFields.add(field);
                     BeanUtils.copyProperty(overriddenObject, propertyName, camelOverridesMap.get(propertyName));
                 } catch (NoSuchFieldException e) {
                     log.warn("Environment override for property " + propertyName + " found, but no matching property exists.");
                 }
             }
+
+            validateOverrides(overrideRequiredFields, overriddenFields);
+
             return overriddenObject;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private static void validateOverrides(List<Field> overrideRequiredFields, List<Field> overriddenFields) {
+        String validationEnabled = System.getProperty(ENV_OVERRIDE_VALIDATION_ENABLED);
+        if (validationEnabled != null && validationEnabled.equalsIgnoreCase("false")) {
+            log.info("RequiresOverride validation disabled.");
+            return;
+        }
+
+        if (!overriddenFields.containsAll(overrideRequiredFields)) {
+            overrideRequiredFields.removeAll(overriddenFields);
+            String missingNames = overrideRequiredFields.stream().map(Field::getName).collect(Collectors.joining(", "));
+            throw new IllegalStateException("Missing required overridden properties: " + missingNames);
         }
     }
 

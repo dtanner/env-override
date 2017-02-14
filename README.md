@@ -30,15 +30,36 @@ public class AppConfig {
 ```
 
 Choose a prefix for your environment-specific overrides.  e.g.: 
-`export FOO_HOST_NAME="foo.com"`
+
+    export FOO_HOST_NAME="foo.com"
 
 Then wherever you initialize your app's startup configuration, do something like this:
-```
-AppConfig appConfig = EnvConfigLoader.overrideFromEnvironment(new AppConfig(), "FOO") 
-```
+
+    AppConfig appConfig = EnvConfigLoader.overrideFromEnvironment(new AppConfig(), "FOO") 
+
 
 The AppConfig instance will end up with a hostName of `foo.com` and port of `80`.  
 i.e. It will have modified the hostName, and left the port with the original value.
+
+## RequiresOverride
+You can indicate that a configuration field must be overridden, using the @RequiresOverride annotation.  
+This is useful for fields that you know should be overridden in production, and want to an extra check to ensure it happens.
+For example, using the AppConfig example again:
+```java
+import com.edgescope.config.RequiresOverride;
+
+public class AppConfig {
+    @RequiresOverride
+    String hostName = "test.foo.com";
+    
+    String port = 80;
+}
+```
+
+When the `EnvConfigLoader.overrideFromEnvironment` method is called, it check that the hostName is overridden.  
+If not, it will throw a RuntimeException indicating which fields haven't been overridden.
+ 
+You can disable this validation (e.g. for environments that use all the default values) by setting the `envOverride.validationEnabled` System property to `false`.  It is enabled by default.
 
 ## Requirements, Behaviors, Limitations
 - The method will **not** mutate your original object. It will return a new object with overridden properties.

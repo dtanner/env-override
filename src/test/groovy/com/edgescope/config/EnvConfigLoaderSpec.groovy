@@ -63,4 +63,44 @@ class EnvConfigLoaderSpec extends Specification {
         'FOO'     | 'foo'
         'FOO_BAR' | 'fooBar'
     }
+
+    def "not overriding RequiresOverride fields will throw an exception"() {
+        given:
+        RequiresOverrideAppConfig appConfig = new RequiresOverrideAppConfig()
+        Map<String, String> envVars = [TEST_UNKNOWN_VALUE: "a"]
+
+        when:
+        EnvConfigLoader.overrideFromEnvironment(appConfig, 'TEST', envVars)
+
+        then:
+        RuntimeException ex = thrown()
+        ex.message == "Missing required overridden properties: stringValue, intValue"
+    }
+
+    def "RequiresOverride validation is disabled when the system property is set"() {
+        given:
+        RequiresOverrideAppConfig appConfig = new RequiresOverrideAppConfig()
+        Map<String, String> envVars = [TEST_UNKNOWN_VALUE: "a"]
+
+        System.setProperty("envOverride.validationEnabled", "false")
+
+        when:
+        EnvConfigLoader.overrideFromEnvironment(appConfig, 'TEST', envVars)
+
+        then:
+        noExceptionThrown()
+    }
+
+    def "overriding a RequiresOverride field will work successfully"() {
+        given:
+        RequiresOverrideAppConfig appConfig = new RequiresOverrideAppConfig()
+        Map<String, String> envVars = [TEST_STRING_VALUE: "a", TEST_INT_VALUE: "2"]
+
+        when:
+        appConfig = EnvConfigLoader.overrideFromEnvironment(appConfig, 'TEST', envVars)
+
+        then:
+        noExceptionThrown()
+        appConfig.stringValue == "a"
+    }
 }
