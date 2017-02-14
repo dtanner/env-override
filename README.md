@@ -42,7 +42,7 @@ The AppConfig instance will end up with a hostName of `foo.com` and port of `80`
 i.e. It will have modified the hostName, and left the port with the original value.
 
 ## RequiresOverride
-You can indicate that a configuration field must be overridden, using the @RequiresOverride annotation.  
+You can indicate that a configuration field must be overridden using the @RequiresOverride annotation.  
 This is useful for fields that you know should be overridden in production, and want to an extra check to ensure it happens.
 For example, using the AppConfig example again:
 ```java
@@ -56,7 +56,7 @@ public class AppConfig {
 }
 ```
 
-When the `EnvConfigLoader.overrideFromEnvironment` method is called, it check that the hostName is overridden.  
+When the `EnvConfigLoader.overrideFromEnvironment` method is called, it checks that the hostName is overridden.  
 If not, it will throw a RuntimeException indicating which fields haven't been overridden.
  
 You can disable this validation (e.g. for environments that use all the default values) by setting the `envOverride.validationEnabled` System property to `false`.  It is enabled by default.
