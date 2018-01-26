@@ -10,7 +10,7 @@ Available from the jcenter repository as: compile `'com.edgescope:env-override:$
 Let you define your application's configuration in a **typed** configuration, 
 and allow its settings to be overridden by environment variables.
 
-There are a dozen ways to configure your application, and configuration management is often rife confusion, rot, and bugs.  
+There are a dozen ways to configure your application, and configuration management is often rife with confusion, rot, and bugs.  
 
 The approach this tool takes is toward the https://12factor.net/config
 technique, with the added benefit of using a typed configuration object, which lets you manage your configuration like code. 
