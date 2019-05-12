@@ -74,7 +74,8 @@ class EnvConfigLoaderSpec extends Specification {
 
         then:
         RuntimeException ex = thrown()
-        ex.message == "Missing required overridden properties: stringValue, intValue"
+        ex.message == "Missing required overridden properties: stringValue, intValue\n" +
+                "If this is a dev environment, you can disable validation by setting system property envOverride.validationEnabled=false"
     }
 
     def "RequiresOverride validation is disabled when the system property is set"() {
