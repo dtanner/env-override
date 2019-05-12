@@ -100,7 +100,10 @@ public class EnvConfigLoader {
         if (!overriddenFields.containsAll(overrideRequiredFields)) {
             overrideRequiredFields.removeAll(overriddenFields);
             String missingNames = overrideRequiredFields.stream().map(Field::getName).collect(Collectors.joining(", "));
-            throw new IllegalStateException("Missing required overridden properties: " + missingNames);
+            String message = "Missing required overridden properties: " + missingNames +
+                    "\nIf this is a dev environment, you can disable validation by setting system property " +
+                    ENV_OVERRIDE_VALIDATION_ENABLED + "=false";
+            throw new IllegalStateException(message);
         }
     }
 
