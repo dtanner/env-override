@@ -6,7 +6,8 @@ Utility library to override an object's properties with environment variable val
 
 
 # Usage
-Available from the github repository as: `implementation 'com.edgescope:env-override:$version'` - see the Releases for the latest version.
+Available from the github repository as: `implementation 'com.edgescope:env-override:$version'`.  
+[latest release](https://github.com/dtanner/env-override/releases/latest)
 
 In your gradle script, add github as a maven repository:
 ```groovy
