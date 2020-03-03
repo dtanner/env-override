@@ -1,0 +1,19 @@
+name: Publish to Github Registry on Tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    # needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Publish to Github registry
+        run: ./gradlew publish
