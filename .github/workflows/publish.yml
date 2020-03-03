@@ -1,4 +1,4 @@
-name: Publish to Github Registry on Tag
+name: Publish Artifact
 
 on:
   push:
