@@ -12,3 +12,5 @@ hs_err_pid*
 /out
 .shelf/
 .DS_Store
+
+.kotlintest

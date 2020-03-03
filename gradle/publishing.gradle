@@ -56,8 +56,9 @@ def pomConfig = {
 publishing {
     publications {
         mavenCustom(MavenPublication) {
-            from components.java
-            artifact sourcesJar
+            from components.kotlin
+//            artifact sourcesJar
+//            todo fix ^
 
             pom.withXml {
                 asNode().children().last() + pomConfig
