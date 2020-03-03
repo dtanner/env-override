@@ -67,8 +67,8 @@ artifacts {
 publishing {
     repositories {
         maven {
-            name = project.name
-            url = project.project_url
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dtanner/env-override")
             credentials {
                 username = project.findProperty("gpr.user") ?: "dtanner"
                 password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
