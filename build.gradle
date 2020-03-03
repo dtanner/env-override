@@ -1,19 +1,12 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'org.ajoberstar:gradle-git:1.6.0'
-    }
+plugins {
+    id 'java-library'
+    id("maven-publish")
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
 }
 
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
-    id "com.jfrog.bintray" version "1.7.3"
-    id 'org.ajoberstar.release-opinion' version '1.6.0'
-    id 'org.ajoberstar.grgit' version '1.6.0'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
@@ -23,7 +16,6 @@ repositories {
 
 apply plugin: 'kotlin'
 apply plugin: 'idea'
-apply from: 'gradle/publishing.gradle'
 
 dependencies {
     platform('org.jetbrains.kotlin:kotlin-bom')
@@ -72,16 +64,21 @@ artifacts {
     sourcesJar
 }
 
-tasks.release.dependsOn 'build', 'bintrayUpload'
+publishing {
+    repositories {
+        maven {
+            name = project.name
+            url = project.project_url
+            credentials {
+                username = project.findProperty("gpr.user") ?: "dtanner"
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.kotlin)
+        }
+    }
+}
 
-/*
-Release task cheatsheet:
-major release:
-gw clean release -Prelease.scope=major -Prelease.stage=final
-minor release:
-gw clean release -Prelease.scope=minor -Prelease.stage=final
-patch release:
-gw clean release -Prelease.scope=patch -Prelease.stage=final
-
-// swing popup is for github tagging
-*/
