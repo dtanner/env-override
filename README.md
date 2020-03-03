@@ -4,7 +4,18 @@ Utility library to override an object's properties with environment variable val
 
 ![CI](https://github.com/dtanner/env-override/workflows/CI/badge.svg)
 
+
+# Usage
 Available from the github repository as: implementation `'com.edgescope:env-override:$version'` - see the Releases for the latest version.
+
+In your gradle script, add github as a maven repository:
+```gradle
+repositories {
+    mavenCentral()
+    maven("https://maven.pkg.github.com/dtanner")
+}
+```
+
 
 ## Main Purpose
 Let you define your application's configuration in a **typed** configuration, 
