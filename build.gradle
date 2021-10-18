@@ -32,7 +32,7 @@ dependencies {
     platform('org.jetbrains.kotlin:kotlin-bom')
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    compile "ch.qos.logback:logback-classic:1.1.7"
+    compile "ch.qos.logback:logback-classic:1.2.6"
     compile "io.github.microutils:kotlin-logging:1.6.20"
     compile "commons-beanutils:commons-beanutils:1.9.3"
 
