@@ -21,62 +21,21 @@ jar {
     }
 }
 
-def pomConfig = {
-    name project.name
-    description project.project_description
-    url project.project_url
-    inceptionYear '2017'
-    licenses {
-        license([:]) {
-            name 'MIT'
-            distribution 'repo'
-        }
-    }
-    scm {
-        url project.project_scm
-    }
-    developers {
-        [
-                dtanner : 'Dan Tanner'
-        ].each { devId, devName ->
-            developer {
-                id devId
-                name devName
-                roles {
-                    role 'Developer'
-                }
-            }
-        }
-    }
-}
-
 publishing {
-    publications {
-        mavenCustom(MavenPublication) {
-            from components.kotlin
-            pom.withXml {
-                asNode().children().last() + pomConfig
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dtanner/env-override")
+            credentials {
+                username = project.findProperty("GITHUB_ACTOR") ?: System.getenv("USERNAME")
+                password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("TOKEN")
             }
         }
     }
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['mavenCustom']
-    publish = true
-    pkg {
-        repo = project.project_bintray_repo
-        // userOrg = project.project_bintray_org
-        name = project.name
-        desc = project.project_description
-        licenses = ['MIT']
-        labels = []
-        websiteUrl = project.project_url
-        issueTrackerUrl = project.project_issues
-        vcsUrl = project.project_scm
-        publicDownloadNumbers = true
+    publications {
+        gpr(MavenPublication) {
+            from(components.kotlin)
+        }
     }
 }
 
