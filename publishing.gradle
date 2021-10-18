@@ -27,8 +27,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/dtanner/env-override")
             credentials {
-                username = project.findProperty("GITHUB_ACTOR") ?: System.getenv("USERNAME")
-                password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("TOKEN")
+                username = project.findProperty("GITHUB_ACTOR") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
