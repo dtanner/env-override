@@ -4,6 +4,9 @@ Utility library to override an object's properties with environment variable val
 
 ![CI](https://github.com/dtanner/env-override/workflows/CI/badge.svg)
 
+# ARCHIVED
+This was packaged under `com.edgescope`, a domain I no longer own. This project used to be deployed to bintray, which has been shut down, which makes maven central the only practical repository. But they require control of the group (domain) to allow write access, which is not worth it for me. This code still works fine, but it's dependencies are getting old, and it could use a rewrite anyway to support `val`s instead of `var`s, and not require annotations to get the `@RequiresOverride` feature.
+
 
 # Usage
 Available from the github repository as: `implementation 'com.edgescope:env-override:$version'`.  
